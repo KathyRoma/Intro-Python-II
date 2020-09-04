@@ -64,10 +64,38 @@ user_input = None
 new_room = None
 
 
+
 #gamplay loop
 
 while not user_input == "q":
     
+    if user_input != None and len(user_input.split(' '))>1:
+        print('two words')
+        user_input_w = user_input.split(' ')
+
+        got_thing = None
+        iter = 0
+
+        for thing in player.current_room.items:
+            if user_input_w[0] == 'get' and user_input_w[1] == thing.name:
+                print(f'got {thing.name} ')
+                got_thing = True
+            
+
+                break        
+            iter = iter+1
+        if got_thing != True:
+                
+            print(f"There's no {user_input_w[1]} in the room")
+        else:
+            player.items.append(player.current_room.items.pop(iter))
+            # player.current_room.items.pop(iter)
+            print(', '.join([thing.name for thing in player.items]))
+            print(', '.join([thing.name for thing in player.current_room.items]))    
+
+    #   * If it is there, remove it from the `Room` contents, and add it to the
+    #    `Player` contents.      
+
     if player.name == None and user_input is not None:
         player.name = user_input
     
@@ -93,10 +121,10 @@ while not user_input == "q":
 
     # lets name the player 
     if player.name == None:
-        user_input = str(input(f"What is your name? Keep it civil pls and don't drop your {' and '.join([predmet.description + ' ' + predmet.name  for predmet  in player.items])}.\n")).capitalize
+        user_input = str(input(f"What is your name? Keep it civil pls and don't drop your {' and '.join([predmet.description + ' ' + predmet.name  for predmet  in player.items])}.\n")).capitalize()
         # user_input = str(input(f"What is your name? Keep it civil pls and don't drop your {player.items[0].description} {player.items[0].name}.\n")).capitalize()
     else:        
         print(f"You are in {player.current_room.name}. {player.current_room.description}. There are some objects here: {', '.join([predmet.name for predmet  in player.current_room.items])}")
         user_input = str(input("[N]orth (remembers)    [S]outh    [E]ast    [W]est(eros)    [Q]uit\n")).lower()
 
-
+    
